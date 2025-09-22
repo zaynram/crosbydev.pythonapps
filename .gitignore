@@ -1,0 +1,12 @@
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+
+build/
+dist/
+
+**/.*_cache/
+**/*.egg-info
+__pycache__/
+
+data/medical/

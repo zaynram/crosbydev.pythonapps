@@ -1,0 +1,18 @@
+{
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": [
+    {
+      "path": "",
+      "envManager": "renan-r-santos.pixi-code:pixi",
+      "packageManager": "renan-r-santos.pixi-code:pixi"
+    }
+  ],
+  "workbench.colorTheme": "Eva Dark Bold",
+  "python.pixiToolPath": "pixi",
+  "python.defaultInterpreterPath": ".pixi/envs/default/python.exe",
+  "files.exclude": {
+    ".pixi": true,
+    ".mypy_cache": true,
+    "build": true
+  }
+}

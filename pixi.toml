@@ -1,0 +1,24 @@
+[workspace]
+authors = ["zaynram <ramdasszayn@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["win-64", "linux-64"]
+
+[dependencies]
+python = ">=3.13"
+tqdm = "*"
+ipywidgets = "*"
+ipykernel = "*"
+pyinstaller = "*"
+
+
+[pypi-dependencies]
+wxpython = "*"
+gooey = "*"
+pymupdf = ">=1.26.4, <2"
+ollama = ">=0.5.3, <0.6"
+pydantic = "==2.12.0a1"
+apps = { path = "apps", editable = true }
+utils = { path = "utils", editable = true }
+
+[tasks]
+medscan = "python medscan.py"
