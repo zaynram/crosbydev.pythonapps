@@ -1,24 +1,28 @@
 [workspace]
-authors = ["zaynram <ramdasszayn@gmail.com>"]
-channels = ["conda-forge"]
-platforms = ["win-64", "linux-64"]
+authors   = ["zaynram <ramdasszayn@gmail.com>"]
+channels  = ["conda-forge"]
+platforms = ["linux-64", "win-64"]
 
 [dependencies]
-python = ">=3.13"
-tqdm = "*"
-ipywidgets = "*"
-ipykernel = "*"
+ipykernel   = "*"
+ipywidgets  = "*"
 pyinstaller = "*"
+python      = ">=3.13"
+ramda_py    = { url = "https://github.com/zaynram/ramda-py/raw/refs/heads/master/build/ramda_py-0.1.0-pyh4616a5c_0.conda" }
+tqdm        = "*"
 
+[environments]
+default = []
 
 [pypi-dependencies]
-wxpython = "*"
-gooey = "*"
-pymupdf = ">=1.26.4, <2"
-ollama = ">=0.5.3, <0.6"
+apps     = { path = "apps", editable = true }
+gooey    = "*"
+ollama   = ">=0.5.3, <0.6"
 pydantic = "==2.12.0a1"
-apps = { path = "apps", editable = true }
-utils = { path = "utils", editable = true }
+pymupdf  = ">=1.26.4, <2"
+wxpython = "*"
 
 [tasks]
-medscan = "python medscan.py"
+  [tasks.app]
+  args = [{ arg = "NAME" }]
+  cmd  = ["python", "{{ NAME }}.py"]

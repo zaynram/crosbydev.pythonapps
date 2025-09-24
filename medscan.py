@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import wx
 from apps import Medscan
-from utils.config import gooify, gooparse
+from apps.goo import gooify, gooparse
 from typing import final
 
 app = wx.App()

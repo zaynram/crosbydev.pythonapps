@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 from gooey import Gooey, GooeyParser
+
 from functools import wraps
 from typing import TYPE_CHECKING, final
 
 if TYPE_CHECKING:
-    from utils.typeshed import *
+    from argparse import ArgumentParser
+    from ramda_py.types import *
 
 DEFAULT_GOOEY_ARGS = final({
     "header_show_help": True,

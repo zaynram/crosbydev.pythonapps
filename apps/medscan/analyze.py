@@ -7,11 +7,11 @@ import ollama
 import typing
 
 if typing.TYPE_CHECKING:
-    from utils.typeshed import *
+    from .typeshed import *
 
 from pathlib import Path
+from apps.common import console, argtype, retry, timings, track, DATA_DIR
 
-from utils import console, argtype, retry, timings, dumplocals, DATA_DIR
 from .extract import Extractor
 
 SYSTEM_PROMPT = typing.final("""
@@ -105,7 +105,6 @@ class Analyzer(Extractor):
             },
         }
 
-    @dumplocals
     def analyze(self) -> None:
         """
         Analyzes all text files in a directory using a local Gemma:3n model
@@ -116,8 +115,6 @@ class Analyzer(Extractor):
             date (date): The date of the accident.
             directory_path (Path): The path to the directory with extracted text files.
         """
-
-        from utils import track
 
         self._pull_model()
 

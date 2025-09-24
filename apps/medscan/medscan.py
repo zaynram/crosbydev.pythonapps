@@ -1,6 +1,6 @@
 from __future__ import annotations
 from argparse import Namespace
-from utils.common import console
+from apps.common import console
 from .preprocess import Preprocessor
 from .analyze import Analyzer
 

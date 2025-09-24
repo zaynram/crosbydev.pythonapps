@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from utils import timings, console, argtype, DATA_DIR
+from apps.common import DATA_DIR, timings, console, argtype
 
 import fitz
 import typing
 
 if typing.TYPE_CHECKING:
-    from utils.typeshed import *
+    from .typeshed import *
 
 from pathlib import Path
 
@@ -33,7 +33,6 @@ class Preprocessor:
         suffix_with_ext = suffix if ".pdf" in suffix else f"{suffix}.pdf"
         return (self.out_dir or self.file_in.parent) / f"{self.file_in.stem}{suffix_with_ext}"
 
-    @timings(strip_prefix="_")
     def _clone_doc(
         self,
         from_page: int,
@@ -47,7 +46,6 @@ class Preprocessor:
         out.save(self._get_path(suffix))
         src.close()
 
-    @timings(strip_prefix="_")
     def _trim_doc(self) -> None:
         self._clone_doc(
             from_page=self.trim_start - 1,
@@ -55,7 +53,6 @@ class Preprocessor:
             suffix="_trim",
         )
 
-    @timings(strip_prefix="_")
     def _split_doc(self) -> None:
         prev = getattr(self, "trim_start", 1) - 1
         for curr in self._split_generator():

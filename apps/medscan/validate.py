@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import re
 import typing as ty
-from utils import timings
-
-from utils.typeshed import ValidationSubject, ValidatedResult
+from apps.common import timings
 
 if ty.TYPE_CHECKING:
-    from utils.typeshed import *
+    from .typeshed import *
 
 
 class ValidationDict(dict[ValidationSubject, ValidatedResult]):

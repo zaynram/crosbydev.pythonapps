@@ -1,15 +1,20 @@
 from __future__ import annotations
 
-from datetime import date
 import json
 import sys
 import wx
 import typing
 
-if typing.TYPE_CHECKING:
-    from .typeshed import *
+from ramda_py.decor import *
+from ramda_py.util import *
+from typing import TYPE_CHECKING
 
-from .pathing import LOG_DIR
+
+if TYPE_CHECKING:
+    from datetime import date
+    from ramda_py.types import *
+
+DATA_DIR = rootpath(__file__, "data", mkdir=True, resolve=True).as_posix()
 
 
 class argtype:
@@ -48,7 +53,7 @@ class argtype:
 
 class console:
     NEWLINE = typing.final(chr(13) + chr(10) if sys.platform == "win32" else chr(10))
-    FILE = typing.final(LOG_DIR / "latest-execution.log")
+    FILE = typing.final(rootpath(__file__, "logs", mkdir=True) / "latest-execution.log")
     WHITELIST = typing.final(["progress"])
     BLACKLIST = typing.final([
         "mupdf error",
@@ -80,9 +85,7 @@ class console:
     @classmethod
     def log(cls, *lines: object) -> None:
         text = " ".join(str(line).lower() for line in lines)
-        if all(item not in text for item in cls.WHITELIST) or any(
-            item in text for item in cls.BLACKLIST
-        ):
+        if all(item not in text for item in cls.WHITELIST) or any(item in text for item in cls.BLACKLIST):
             with cls.FILE.open("a+t", encoding="utf-8") as f:
                 print(*lines, sep=cls.NEWLINE, file=f)
         else:

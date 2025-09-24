@@ -1,11 +1,12 @@
 from __future__ import annotations
-from utils import track, console, JSONDict
+from apps.common import track, console
+from .typeshed import JSONDict
 
 import fitz
 import typing
 
 if typing.TYPE_CHECKING:
-    from utils.typeshed import *
+    from .typeshed import *
 
 from pathlib import Path
 
