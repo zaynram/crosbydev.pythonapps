@@ -31,8 +31,40 @@ A powerful, configurable document analysis system that can analyze various types
 ## Quick Start
 
 ### Installation
+
+**Using Pixi (Recommended):**
+
+Pixi provides reproducible environments and dependency management for this project.
+
 ```bash
-pip install typer[all] python-docx docx2txt pyyaml toml
+# Option 1: Use the provided pixi.sh wrapper script
+./pixi.sh install     # Install dependencies
+./pixi.sh cli --help  # Show CLI help
+./pixi.sh test        # Run basic tests
+
+# Option 2: Use pixi directly
+# Install pixi if not already installed
+curl -fsSL https://pixi.sh/install.sh | bash
+
+# Navigate to the project directory
+cd doculyze
+
+# Install dependencies and activate environment
+pixi install
+
+# Use pixi to run commands
+pixi run cli --help                    # Show CLI help
+pixi run analyze documents/            # Run document analysis
+pixi run preprocess files/             # Run preprocessing
+
+# Or activate the shell and run commands directly
+pixi shell
+python main.py --help
+```
+
+**Manual Installation:**
+```bash
+pip install typer[all] python-docx docx2txt pyyaml toml rich
 # Optional: pip install gooey  # For GUI interface
 # Optional: pip install ollama  # For LLM integration
 ```
@@ -57,6 +89,24 @@ python main.py preprocess documents/ --operation extract
 
 # Create custom configuration
 python main.py config-create my_config --template legal
+```
+
+## Pixi Tasks
+
+The project includes several predefined pixi tasks for common operations:
+
+```bash
+# Show CLI help
+pixi run cli --help
+
+# Run document analysis
+pixi run analyze document.pdf --context "Legal review"
+
+# Run preprocessing  
+pixi run preprocess documents/ --operation extract
+
+# Run legacy application (for backwards compatibility)
+pixi run app medscan
 ```
 
 ## Commands
