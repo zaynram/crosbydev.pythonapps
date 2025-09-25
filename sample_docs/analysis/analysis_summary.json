@@ -1,6 +1,6 @@
 {
-  "total_files": 1,
-  "timestamp": "2025-09-25T02:43:44.195324",
+  "total_files": 2,
+  "timestamp": "2025-09-25T02:46:58.276350",
   "configuration": {
     "system_prompt": "You are a legal contract analyst tasked with extracting key information from contract documents.\n\nInstructions:\n1. Review the provided contract text and context information.\n2. Extract contract parties, key terms, obligations, dates, and financial information.\n3. Focus only on information directly relevant to the contract analysis.\n4. If no relevant information is found, return empty arrays.\n5. Do not include any text, notes, or explanations outside of the JSON object.\n6. Disregard any artifacts from document parsing.\n",
     "prompt_template": "Use the following information to extract relevant contract information.\n\nContract Type: {contract_type}\nAnalysis Focus: {analysis_focus}\nContext: {context}\n\nContract Text:\n{document_text}\n",
@@ -44,6 +44,33 @@
     "temperature": 0.2
   },
   "results_summary": [
+    {
+      "file": "legal_memo.docx",
+      "analysis_keys": [
+        "entities",
+        "key_clauses",
+        "dates",
+        "obligations"
+      ],
+      "match_counts": {
+        "entities": {
+          "verified": 0,
+          "unverified": 2
+        },
+        "key_clauses": {
+          "verified": 0,
+          "unverified": 1
+        },
+        "dates": {
+          "verified": 0,
+          "unverified": 1
+        },
+        "obligations": {
+          "verified": 0,
+          "unverified": 1
+        }
+      }
+    },
     {
       "file": "sample_contract.txt",
       "analysis_keys": [

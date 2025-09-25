@@ -1,0 +1,29 @@
+{
+  "operation": "convert",
+  "total_files": 1,
+  "successful": 1,
+  "failed": 0,
+  "timestamp": "2025-09-25T02:47:14.527171",
+  "configuration": {
+    "supported_formats": [
+      ".pdf",
+      ".docx",
+      ".doc",
+      ".txt"
+    ],
+    "extract_text": true,
+    "ocr_enabled": true,
+    "clean_text": true
+  },
+  "results": [
+    {
+      "operation": "convert",
+      "input_file": "/home/runner/work/doculyze/doculyze/sample_docs/legal_memo.docx",
+      "output_file": "converted_docs/legal_memo_converted.txt",
+      "source_format": ".docx",
+      "target_format": ".txt",
+      "success": true,
+      "timestamp": "2025-09-25T02:47:14.527135"
+    }
+  ]
+}

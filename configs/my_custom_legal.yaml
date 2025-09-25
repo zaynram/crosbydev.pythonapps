@@ -1,0 +1,68 @@
+analysis:
+  max_tokens: 16000
+  model_id: gemma3n:e4b
+  prompt_template: 'Use the following information to extract the relevant legal information.
+
+
+    Context: {context}
+
+    Document Type: {document_type}
+
+    Analysis Target: {analysis_target}
+
+
+    Document Text:
+
+    {document_text}'
+  response_schema:
+    properties:
+      dates:
+        items:
+          type: string
+        type: array
+      entities:
+        items:
+          type: string
+        type: array
+      key_clauses:
+        items:
+          type: string
+        type: array
+      obligations:
+        items:
+          type: string
+        type: array
+    type: object
+  system_prompt: 'You are a legal document analyst tasked with extracting information
+    from legal documents.
+
+
+    Instructions:
+
+    1. Review the provided document text and context information.
+
+    2. Extract relevant legal entities, clauses, dates, and key information based
+    on the specified extraction targets.
+
+    3. Focus only on information directly relevant to the specified context.
+
+    4. If no relevant information is found, return empty arrays.
+
+    5. Do not include any text, notes, or explanations outside of the JSON object.
+
+    6. Disregard any artifacts from document parsing.'
+  temperature: 0.2
+preprocessing:
+  clean_text: true
+  extract_text: true
+  ocr_enabled: true
+  supported_formats:
+  - .pdf
+  - .docx
+  - .doc
+  - .txt
+validation:
+  algorithm: ngram_bonus
+  bonus_factor: 0.5
+  strictness: moderate
+  threshold: 0.4

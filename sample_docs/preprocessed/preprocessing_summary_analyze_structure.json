@@ -1,0 +1,56 @@
+{
+  "operation": "analyze_structure",
+  "total_files": 2,
+  "successful": 2,
+  "failed": 0,
+  "timestamp": "2025-09-25T02:46:17.094182",
+  "configuration": {
+    "supported_formats": [
+      ".pdf",
+      ".docx",
+      ".doc",
+      ".txt"
+    ],
+    "extract_text": true,
+    "ocr_enabled": true,
+    "clean_text": true
+  },
+  "results": [
+    {
+      "operation": "analyze_structure",
+      "input_file": "/home/runner/work/doculyze/doculyze/sample_docs/legal_memo.docx",
+      "file_info": {
+        "name": "legal_memo.docx",
+        "size": 37517,
+        "format": ".docx",
+        "supported": true
+      },
+      "text_analysis": {
+        "word_count": 157,
+        "character_count": 1245,
+        "paragraph_count": 1,
+        "has_text": true
+      },
+      "success": true,
+      "timestamp": "2025-09-25T02:46:17.093922"
+    },
+    {
+      "operation": "analyze_structure",
+      "input_file": "/home/runner/work/doculyze/doculyze/sample_docs/sample_contract.txt",
+      "file_info": {
+        "name": "sample_contract.txt",
+        "size": 1388,
+        "format": ".txt",
+        "supported": true
+      },
+      "text_analysis": {
+        "word_count": 199,
+        "character_count": 1278,
+        "paragraph_count": 1,
+        "has_text": true
+      },
+      "success": true,
+      "timestamp": "2025-09-25T02:46:17.094143"
+    }
+  ]
+}
