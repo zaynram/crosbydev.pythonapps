@@ -2,8 +2,14 @@ from __future__ import annotations
 
 import json
 import sys
-import wx
 import typing
+
+# Make wx optional
+try:
+    import wx
+    WX_AVAILABLE = True
+except ImportError:
+    WX_AVAILABLE = False
 
 from ramda_py.decor import *
 from ramda_py.util import *

@@ -1,0 +1,58 @@
+# Configuration for analyzing medical records (legacy compatibility)
+analysis:
+  system_prompt: |
+    You are a medical data analyst tasked with extracting information from medical documents.
+
+    Instructions:
+    1. Review the provided medical document text and context information.
+    2. Identify relevant medical information based on the specified context and analysis target.
+    3. Only include information directly relevant to the specified context.
+    4. If no relevant information is found, return empty arrays.
+    5. Do not include any text, notes, or explanations outside of the JSON object.
+    6. Disregard any artifacts from document parsing.
+
+  prompt_template: |
+    Use the following information to extract relevant medical information.
+
+    Context: {context}
+    Analysis Target: {analysis_target}
+    Date of Interest: {date}
+
+    Medical Document Text:
+    {document_text}
+
+  response_schema:
+    type: object
+    properties:
+      injuries:
+        type: array
+        items:
+          type: string
+      treatments:
+        type: array
+        items:
+          type: string
+      medications:
+        type: array
+        items:
+          type: string
+      diagnoses:
+        type: array
+        items:
+          type: string
+
+  model_id: "gemma3n:e4b"
+  max_tokens: 16000
+  temperature: 0.2
+
+validation:
+  threshold: 0.5
+  algorithm: "ngram_bonus"
+  bonus_factor: 0.5
+  strictness: "strict"
+
+preprocessing:
+  supported_formats: [".pdf", ".docx", ".doc", ".txt"]
+  extract_text: true
+  ocr_enabled: true
+  clean_text: true
