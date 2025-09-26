@@ -1,13 +1,8 @@
 [project]
 dynamic = ["dependencies"]
-name    = "crosbydev.pythonapps"
+name    = "crosbydev-pythonapps"
 version = "0.1.0"
 
 # --
 [tool.setuptools]
 packages = ["scripts"]
-
-
-[tool.pyright]
-reportUnusedExpression          = "none"
-reportWildcardImportFromLibrary = "none"

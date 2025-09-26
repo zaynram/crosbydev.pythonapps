@@ -69,7 +69,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/noarch/python-gil-3.13.7-h4df99d1_100.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/python_abi-3.13-8_cp313.conda
       - conda: https://conda.anaconda.org/conda-forge/linux-64/pyzmq-27.1.0-py312hfb55c3c_0.conda
-      - conda: https://github.com/zaynram/ramda-py/raw/refs/heads/master/build/ramda_py-0.1.0-pyh4616a5c_0.conda
+      - conda: git+https://github.com/zaynram/ramda-py#9ee94d1fc778a858d5dcd1620fd701694276dbd8
       - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8c095d6_2.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-80.9.0-pyhff2d567_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.17.0-pyhe01879c_1.conda
@@ -156,7 +156,7 @@ environments:
       - conda: https://conda.anaconda.org/conda-forge/win-64/pywin32-311-py313h40c08fc_1.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pywin32-ctypes-0.2.3-py313hfa70ccb_2.conda
       - conda: https://conda.anaconda.org/conda-forge/win-64/pyzmq-27.1.0-py312hbb5da91_0.conda
-      - conda: https://github.com/zaynram/ramda-py/raw/refs/heads/master/build/ramda_py-0.1.0-pyh4616a5c_0.conda
+      - conda: git+https://github.com/zaynram/ramda-py#9ee94d1fc778a858d5dcd1620fd701694276dbd8
       - conda: https://conda.anaconda.org/conda-forge/noarch/setuptools-80.9.0-pyhff2d567_0.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/six-1.17.0-pyhe01879c_1.conda
       - conda: https://conda.anaconda.org/conda-forge/noarch/stack_data-0.6.3-pyhd8ed1ab_1.conda
@@ -1545,14 +1545,16 @@ packages:
   - pkg:pypi/pyzmq?source=hash-mapping
   size: 185711
   timestamp: 1757387025899
-- conda: https://github.com/zaynram/ramda-py/raw/refs/heads/master/build/ramda_py-0.1.0-pyh4616a5c_0.conda
+- conda: git+https://github.com/zaynram/ramda-py#9ee94d1fc778a858d5dcd1620fd701694276dbd8
+  name: rampy
+  version: 0.1.1
+  build: pyh4616a5c_0
   subdir: noarch
   depends:
   - loguru >=0.7.3
   - python
+  - python
   channel: null
-  file_name: https://github.com/zaynram/ramda-py/raw/refs/heads/master/build/ramda_py-0.1.0-pyh4616a5c_0.conda
-  timestamp: 1758664506413
 - conda: https://conda.anaconda.org/conda-forge/linux-64/readline-8.2-h8c095d6_2.conda
   sha256: 2d6d0c026902561ed77cd646b5021aef2d4db22e57a5b0178dfc669231e06d2c
   md5: 283b96675859b20a825f8fa30f311446
