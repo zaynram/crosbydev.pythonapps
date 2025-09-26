@@ -200,14 +200,15 @@ class FileProcessor:
         text = re.sub(r'\s+', ' ', text)
         
         # Remove common PDF artifacts
-        text = re.sub(r'[^\w\s\.\,\!\?\;\:\-\(\)\[\]\"\'\/]', ' ', text)
+        pattern = r'[^\w\s\.\,\!\?\;\:\-\(\)\[\]\"\'\/]'
+        text = re.sub(pattern, ' ', text)
         
         # Remove repeated characters (common in OCR artifacts)
         text = re.sub(r'(.)\1{4,}', r'\1\1', text)
         
         # Remove very short lines (often artifacts)
         lines = text.split('\n')
-        cleaned_lines = [line.strip() for line in lines if len(line.strip()) > 3]
+        cleaned_lines = [li for li in lines if (li := line.strip()) and (len(li) > 3)]
         
         # Join lines back together
         text = '\n'.join(cleaned_lines)
