@@ -235,7 +235,6 @@ def test_extract(
 ):
     """Test text extraction from a single file."""
     try:
-        sys.path.insert(0, str(Path(__file__).parent / "apps" / "doculyze"))
         from file_processor import FileProcessor
         
         processor = FileProcessor()
