@@ -208,7 +208,7 @@ class FileProcessor:
         
         # Remove very short lines (often artifacts)
         lines = text.split('\n')
-        cleaned_lines = [li for li in lines if (li := line.strip()) and (len(li) > 3)]
+        cleaned_lines = [line.strip() for line in lines if line.strip() and len(line.strip()) > 3]
         
         # Join lines back together
         text = '\n'.join(cleaned_lines)

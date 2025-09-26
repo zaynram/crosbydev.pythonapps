@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
-from typing import Dict, Any, List, Optional, Union
+from typing import Dict, Any, List, Optional, Union, Generator
 import datetime as dt
 
 import sys
@@ -16,6 +16,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 from common_simple import console, track, timings
 from file_processor import FileProcessor
+
+# Import PyMuPDF for PDF operations
+try:
+    import fitz
+    PYMUPDF_AVAILABLE = True
+except ImportError:
+    PYMUPDF_AVAILABLE = False
 
 
 class GenericPreprocessor:
@@ -298,17 +305,156 @@ class GenericPreprocessor:
         
         return results
     
+    def _get_split_path(self, file_path: Path, suffix: str = "") -> Path:
+        """Generate output path for split documents."""
+        suffix_with_ext = suffix if f"{file_path.suffix}" in suffix else f"{suffix}{file_path.suffix}"
+        return self.output_dir / f"{file_path.stem}{suffix_with_ext}"
+    
+    def _clone_pdf_pages(
+        self,
+        src_path: Path,
+        from_page: int,
+        to_page: int,
+        output_path: Path,
+        start_at: int = -1,
+    ) -> bool:
+        """Clone specific pages from a PDF document using PyMuPDF."""
+        if not PYMUPDF_AVAILABLE:
+            console.log("PyMuPDF not available for PDF operations")
+            return False
+            
+        try:
+            src = fitz.open(src_path)
+            out = fitz.open()
+            out.insert_pdf(src, from_page=from_page, to_page=to_page, start_at=start_at)
+            out.save(output_path)
+            src.close()
+            out.close()
+            return True
+        except Exception as e:
+            console.error(f"Failed to clone PDF pages: {e}")
+            return False
+    
     def _split_pdf(self, file_path: Path, split_indices: List[int]) -> List[Dict[str, Any]]:
-        """Split PDF file at specified page indices."""
-        # This would require PyMuPDF implementation
-        # For now, return placeholder
-        return [{
-            "operation": "split",
-            "input_file": str(file_path),
-            "success": False,
-            "error": "PDF splitting not yet implemented",
-            "timestamp": dt.datetime.now().isoformat()
-        }]
+        """Split PDF file at specified page indices using PyMuPDF."""
+        results = []
+        
+        if not PYMUPDF_AVAILABLE:
+            return [{
+                "operation": "split",
+                "input_file": str(file_path),
+                "success": False,
+                "error": "PyMuPDF not available. Install with: pip install pymupdf",
+                "timestamp": dt.datetime.now().isoformat()
+            }]
+        
+        try:
+            # Open PDF to get total page count
+            doc = fitz.open(file_path)
+            total_pages = len(doc)
+            doc.close()
+            
+            # Sort split indices and add boundaries
+            indices = sorted(set(split_indices))
+            if indices and indices[0] != 1:
+                indices.insert(0, 1)
+            if indices and indices[-1] != total_pages:
+                indices.append(total_pages)
+            
+            # Create splits
+            for i in range(len(indices) - 1):
+                from_page = indices[i] - 1  # Convert to 0-based indexing
+                to_page = indices[i + 1] - 1
+                
+                suffix = f"_split_{indices[i]}-{indices[i + 1]}"
+                output_path = self._get_split_path(file_path, suffix)
+                
+                success = self._clone_pdf_pages(
+                    file_path, from_page, to_page, output_path, start_at=0
+                )
+                
+                results.append({
+                    "operation": "split",
+                    "input_file": str(file_path),
+                    "output_file": str(output_path),
+                    "pages": f"{indices[i]}-{indices[i + 1]}",
+                    "success": success,
+                    "timestamp": dt.datetime.now().isoformat()
+                })
+                
+                if success:
+                    console.log(f"Split PDF pages {indices[i]}-{indices[i + 1]} -> {output_path.name}")
+                else:
+                    console.error(f"Failed to split PDF pages {indices[i]}-{indices[i + 1]}")
+                    
+            return results
+            
+        except Exception as e:
+            console.error(f"Failed to split PDF {file_path.name}: {e}")
+            return [{
+                "operation": "split",
+                "input_file": str(file_path),
+                "success": False,
+                "error": str(e),
+                "timestamp": dt.datetime.now().isoformat()
+            }]
+    
+    def _trim_pdf(self, file_path: Path, start_page: int, end_page: int) -> Dict[str, Any]:
+        """Trim PDF to specific page range using PyMuPDF."""
+        if not PYMUPDF_AVAILABLE:
+            return {
+                "operation": "trim",
+                "input_file": str(file_path),
+                "success": False,
+                "error": "PyMuPDF not available. Install with: pip install pymupdf",
+                "timestamp": dt.datetime.now().isoformat()
+            }
+        
+        try:
+            # Open PDF to get total page count
+            doc = fitz.open(file_path)
+            total_pages = len(doc)
+            doc.close()
+            
+            # Validate page range
+            start_page = max(1, start_page)
+            end_page = min(total_pages, end_page) if end_page > 0 else total_pages
+            
+            suffix = f"_trim_{start_page}-{end_page}"
+            output_path = self._get_split_path(file_path, suffix)
+            
+            # Convert to 0-based indexing for PyMuPDF
+            from_page = start_page - 1
+            to_page = end_page - 1
+            
+            success = self._clone_pdf_pages(file_path, from_page, to_page, output_path)
+            
+            result = {
+                "operation": "trim",
+                "input_file": str(file_path),
+                "output_file": str(output_path),
+                "pages": f"{start_page}-{end_page}",
+                "success": success,
+                "timestamp": dt.datetime.now().isoformat()
+            }
+            
+            if success:
+                console.log(f"Trimmed PDF to pages {start_page}-{end_page} -> {output_path.name}")
+            else:
+                console.error(f"Failed to trim PDF to pages {start_page}-{end_page}")
+                result["error"] = "Failed to clone PDF pages"
+                
+            return result
+            
+        except Exception as e:
+            console.error(f"Failed to trim PDF {file_path.name}: {e}")
+            return {
+                "operation": "trim",
+                "input_file": str(file_path),
+                "success": False,
+                "error": str(e),
+                "timestamp": dt.datetime.now().isoformat()
+            }
     
     def _split_word_document(self, file_path: Path, split_indices: List[int]) -> List[Dict[str, Any]]:
         """Split Word document at specified positions."""
@@ -382,16 +528,7 @@ class GenericPreprocessor:
         
         return results
     
-    def _trim_pdf(self, file_path: Path, start: int, end: int) -> Dict[str, Any]:
-        """Trim PDF to specified page range."""
-        # This would require PyMuPDF implementation
-        return {
-            "operation": "trim",
-            "input_file": str(file_path),
-            "success": False,
-            "error": "PDF trimming not yet implemented",
-            "timestamp": dt.datetime.now().isoformat()
-        }
+
     
     def _trim_text_content(self, file_path: Path, start: int, end: int) -> Dict[str, Any]:
         """Trim text content to specified range."""
