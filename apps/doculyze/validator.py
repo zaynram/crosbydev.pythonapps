@@ -32,6 +32,9 @@ class FlexibleValidator:
         
         # Strictness-based adjustments
         self._apply_strictness_settings()
+
+    def _calc_triangular_bonus(self, n: float) -> float:
+        return (n * (n - 1) / 2) * self.bonus_factor
     
     def _apply_strictness_settings(self) -> None:
         """Apply strictness-based adjustments to validation parameters."""
@@ -144,12 +147,13 @@ class FlexibleValidator:
                 i += 1
         
         base_matches = sum(runs)
+        
         # Triangular bonus to favor longer consecutive runs
-        bonus = sum((r * (r - 1) / 2) * self.bonus_factor for r in runs)
+        bonus = sum(self._calc_triangular_bonus(r) for r in runs)
         raw_score = base_matches + bonus
         
         # Theoretical maximum: all tokens matched in a single run
-        max_score = n + ((n * (n - 1) / 2) * self.bonus_factor)
+        max_score = n + self._calc_triangular_bonus(n)
         confidence = float(raw_score / max_score) if max_score > 0 else 0.0
         
         # Clamp for safety
