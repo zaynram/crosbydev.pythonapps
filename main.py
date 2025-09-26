@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """
-Main entry point for Doculyze CLI without heavy dependencies.
+Doculyze - A flexible document analysis tool.
+
+This tool can analyze various types of documents using LLMs and provides both
+CLI and GUI interfaces.
 """
 from __future__ import annotations
 
@@ -12,6 +15,7 @@ import json
 import yaml
 import typer
 from rich.console import Console
+from rich.table import Table
 
 # Add current directory to path
 sys.path.insert(0, str(Path(__file__).parent))
@@ -19,9 +23,23 @@ sys.path.insert(0, str(Path(__file__).parent))
 # Direct imports to avoid triggering apps.__init__.py
 sys.path.insert(0, str(Path(__file__).parent / "apps" / "doculyze"))
 
-from config import ConfigManager
-from analyzer import GenericAnalyzer  
-from preprocessor import GenericPreprocessor
+try:
+    from config import ConfigManager
+    from analyzer import GenericAnalyzer  
+    from preprocessor import GenericPreprocessor
+    # Optional GUI support
+    try:
+        from cli_gui_decorator import gui_mode, needs_gui_support
+        GUI_AVAILABLE = True
+    except ImportError:
+        GUI_AVAILABLE = False
+        # Create dummy decorator if GUI not available
+        def gui_mode(func):
+            return func
+except ImportError as e:
+    print(f"Import error: {e}")
+    print("Make sure all dependencies are installed and paths are correct")
+    sys.exit(1)
 
 # Initialize Typer app
 app = typer.Typer(
@@ -37,13 +55,20 @@ config_manager = ConfigManager()
 @app.callback()
 def main(
     ctx: typer.Context,
+    gui: bool = typer.Option(False, "--gui", help="Launch GUI interface instead of CLI"),
     config: Optional[Path] = typer.Option(None, "--config", help="Configuration file path"),
     verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable verbose output"),
 ):
     """Doculyze - Flexible document analysis tool."""
     ctx.ensure_object(dict)
+    ctx.obj["gui"] = gui
     ctx.obj["config"] = config
     ctx.obj["verbose"] = verbose
+    
+    if gui and not GUI_AVAILABLE:
+        console.print("[red]GUI mode requested but GUI components are not available.[/red]")
+        console.print("Install GUI dependencies with: pip install gooey wxpython")
+        raise typer.Exit(1)
     
     if config:
         try:
@@ -59,6 +84,7 @@ def main(
 
 
 @app.command()
+@gui_mode
 def analyze(
     ctx: typer.Context,
     path: Path = typer.Argument(..., help="Path to documents or folder containing documents"),
@@ -75,7 +101,7 @@ def analyze(
             path=path,
             output_dir=output,
             config=config,
-            gui_mode=False
+            gui_mode=ctx.obj.get("gui", False)
         )
         
         if ctx.obj.get("verbose"):
@@ -91,9 +117,10 @@ def analyze(
             
         results = analyzer.analyze(**analysis_context)
         
-        console.print("[green]Analysis completed![/green]")
-        console.print(f"Results saved to: {analyzer.output_dir}")
-        console.print(f"Processed {len(results)} files")
+        if not ctx.obj.get("gui", False):
+            console.print("[green]Analysis completed![/green]")
+            console.print(f"Results saved to: {analyzer.output_dir}")
+            console.print(f"Processed {len(results)} files")
         
     except Exception as e:
         console.print(f"[red]Analysis failed: {e}[/red]")
@@ -101,6 +128,7 @@ def analyze(
 
 
 @app.command()
+@gui_mode
 def preprocess(
     ctx: typer.Context,
     path: Path = typer.Argument(..., help="Path to document or folder containing documents"),
@@ -117,7 +145,7 @@ def preprocess(
             output_dir=output,
             operation=operation,
             config=config,
-            gui_mode=False
+            gui_mode=ctx.obj.get("gui", False)
         )
         
         if ctx.obj.get("verbose"):
@@ -126,9 +154,10 @@ def preprocess(
         
         results = preprocessor.process()
         
-        console.print("[green]Preprocessing completed![/green]")
-        console.print(f"Results saved to: {preprocessor.output_dir}")
-        console.print(f"Processed {len(results)} files")
+        if not ctx.obj.get("gui", False):
+            console.print("[green]Preprocessing completed![/green]")
+            console.print(f"Results saved to: {preprocessor.output_dir}")
+            console.print(f"Processed {len(results)} files")
         
     except Exception as e:
         console.print(f"[red]Preprocessing failed: {e}[/red]")

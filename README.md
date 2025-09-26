@@ -78,8 +78,17 @@ python main.py --help
 # List available configurations
 python main.py list-configs
 
-# Test text extraction
-python main.py test-extract document.pdf
+**Testing with examples:**
+```bash
+# Test text extraction on sample document
+python main.py test-extract examples/documents/sample_docs/sample_contract.txt
+
+# Analyze sample documents
+python main.py analyze examples/documents/sample_docs/ --config configs/legal_contracts.yaml
+
+# Preprocess sample documents  
+python main.py preprocess examples/documents/sample_docs/ --operation extract
+```
 
 # Analyze a document
 python main.py --config configs/legal_contracts.yaml analyze contracts/agreement.docx
