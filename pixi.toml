@@ -2,12 +2,14 @@
 authors   = ["zaynram <ramdasszayn@gmail.com>"]
 channels  = ["conda-forge"]
 platforms = ["linux-64", "win-64"]
+preview   = ["pixi-build"]
 
 [dependencies]
 ipykernel   = "*"
 ipywidgets  = "*"
 pyinstaller = "*"
 python      = ">=3.13"
+rampy       = { git = "https://github.com/zaynram/ramda-py" }
 tqdm        = "*"
 
 [environments]
