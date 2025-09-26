@@ -1,0 +1,66 @@
+# Configuration for analyzing real estate documents
+analysis:
+  system_prompt: |
+    You are a real estate document analyst tasked with extracting key information from property-related documents.
+
+    Instructions:
+    1. Review the provided real estate document text and context information.
+    2. Extract property details, parties, financial terms, conditions, and legal descriptions.
+    3. Focus only on information directly relevant to the real estate transaction.
+    4. If no relevant information is found, return empty arrays.
+    5. Do not include any text, notes, or explanations outside of the JSON object.
+    6. Disregard any artifacts from document parsing.
+
+  prompt_template: |
+    Use the following information to extract relevant real estate information.
+
+    Document Type: {document_type}
+    Property Type: {property_type}
+    Transaction Context: {transaction_context}
+
+    Real Estate Document Text:
+    {document_text}
+
+  response_schema:
+    type: object
+    properties:
+      parties:
+        type: array
+        items:
+          type: string
+      property_details:
+        type: array
+        items:
+          type: string
+      financial_terms:
+        type: array
+        items:
+          type: string
+      conditions:
+        type: array
+        items:
+          type: string
+      legal_descriptions:
+        type: array
+        items:
+          type: string
+      dates:
+        type: array
+        items:
+          type: string
+
+  model_id: "gemma3n:e4b"
+  max_tokens: 16000
+  temperature: 0.2
+
+validation:
+  threshold: 0.4
+  algorithm: "ngram_bonus"
+  bonus_factor: 0.5
+  strictness: "moderate"
+
+preprocessing:
+  supported_formats: [".pdf", ".docx", ".doc", ".txt"]
+  extract_text: true
+  ocr_enabled: true
+  clean_text: true

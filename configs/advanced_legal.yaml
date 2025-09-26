@@ -1,0 +1,131 @@
+# Advanced configuration demonstrating flexible validation and analysis parameters
+analysis:
+  system_prompt: |
+    You are an advanced legal document analyst with specialized knowledge in contract law, litigation, and regulatory compliance.
+
+    Instructions:
+    1. Perform comprehensive analysis of the provided legal document text.
+    2. Extract entities, clauses, obligations, risks, and compliance requirements based on context.
+    3. Identify potential legal issues and areas of concern.
+    4. Focus on actionable information relevant to the specified analysis focus.
+    5. Return structured JSON data without additional commentary.
+    6. Handle multi-jurisdictional and complex legal scenarios.
+
+  prompt_template: |
+    Analyze the following legal document with advanced extraction capabilities.
+
+    Document Classification: {document_type}
+    Jurisdiction: {jurisdiction}
+    Analysis Focus: {analysis_focus}
+    Risk Assessment Level: {risk_level}
+    Compliance Framework: {compliance_framework}
+
+    Document Content:
+    {document_text}
+
+    Extract information relevant to the specified parameters above.
+
+  response_schema:
+    type: object
+    properties:
+      parties:
+        type: array
+        items:
+          type: object
+          properties:
+            name:
+              type: string
+            role:
+              type: string
+            jurisdiction:
+              type: string
+      key_terms:
+        type: array
+        items:
+          type: object
+          properties:
+            term:
+              type: string
+            category:
+              type: string
+            risk_level:
+              type: string
+      obligations:
+        type: array
+        items:
+          type: object
+          properties:
+            party:
+              type: string
+            obligation:
+              type: string
+            deadline:
+              type: string
+            penalty:
+              type: string
+      financial_terms:
+        type: array
+        items:
+          type: object
+          properties:
+            amount:
+              type: string
+            currency:
+              type: string
+            payment_terms:
+              type: string
+            conditions:
+              type: string
+      compliance_requirements:
+        type: array
+        items:
+          type: object
+          properties:
+            requirement:
+              type: string
+            framework:
+              type: string
+            jurisdiction:
+              type: string
+      risk_factors:
+        type: array
+        items:
+          type: object
+          properties:
+            risk:
+              type: string
+            severity:
+              type: string
+            mitigation:
+              type: string
+      dates:
+        type: array
+        items:
+          type: object
+          properties:
+            date:
+              type: string
+            event:
+              type: string
+            significance:
+              type: string
+
+  model_id: "gemma3n:e4b"
+  max_tokens: 24000
+  temperature: 0.1
+
+validation:
+  threshold: 0.3
+  algorithm: "ngram_bonus"
+  bonus_factor: 0.7
+  strictness: "lenient"
+  min_match_length: 2
+
+preprocessing:
+  supported_formats: [".pdf", ".docx", ".doc", ".txt"]
+  extract_text: true
+  ocr_enabled: true
+  clean_text: true
+  normalize_whitespace: true
+  remove_headers_footers: true
+  preserve_structure: true

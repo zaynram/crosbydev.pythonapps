@@ -14,6 +14,17 @@ tqdm        = "*"
 
 [environments]
 default = []
+dev = ["dev"]
+
+[feature.dev]
+  [feature.dev.dependencies]
+  pytest = "*"
+  black = "*"
+  ruff = "*"
+  
+  [feature.dev.tasks]
+  lint = "ruff check ."
+  format = "black ."
 
 [pypi-dependencies]
 apps     = { path = "apps", editable = true }
@@ -22,8 +33,14 @@ ollama   = ">=0.5.3, <0.6"
 pydantic = "==2.12.0a1"
 pymupdf  = ">=1.26.4, <2"
 wxpython = "*"
+typer-slim = ">=0.9.0"
+python-docx = "*"
+docx2txt = "*"
+pyyaml   = "*"
+toml     = "*"
+rich     = "*"
 
 [tasks]
-  [tasks.app]
-  args = [{ arg = "NAME" }]
-  cmd  = ["python", "{{ NAME }}.py"]
+gui = "python main.py --gui"
+cli = "python main.py"
+test = "python main.py test-extract examples/documents/sample_docs/sample_contract.txt"

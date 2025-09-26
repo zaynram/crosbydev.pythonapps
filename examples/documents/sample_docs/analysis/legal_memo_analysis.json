@@ -1,0 +1,83 @@
+{
+  "file": "legal_memo.docx",
+  "analysis": {
+    "entities": [
+      "Mock Entity 1",
+      "Mock Entity 2"
+    ],
+    "key_clauses": [
+      "Mock Clause 1"
+    ],
+    "dates": [
+      "2024-01-01"
+    ],
+    "obligations": [
+      "Mock Obligation"
+    ]
+  },
+  "validation": {
+    "entities": {
+      "verified": {},
+      "unverified": {
+        "Mock Entity 1": [
+          0.0,
+          []
+        ],
+        "Mock Entity 2": [
+          0.0,
+          []
+        ]
+      }
+    },
+    "key_clauses": {
+      "verified": {},
+      "unverified": {
+        "Mock Clause 1": [
+          0.0,
+          []
+        ]
+      }
+    },
+    "dates": {
+      "verified": {},
+      "unverified": {
+        "2024-01-01": [
+          0.0,
+          []
+        ]
+      }
+    },
+    "obligations": {
+      "verified": {},
+      "unverified": {
+        "Mock Obligation": [
+          0.0,
+          []
+        ]
+      }
+    }
+  },
+  "match_counts": {
+    "entities": {
+      "verified": 0,
+      "unverified": 2
+    },
+    "key_clauses": {
+      "verified": 0,
+      "unverified": 1
+    },
+    "dates": {
+      "verified": 0,
+      "unverified": 1
+    },
+    "obligations": {
+      "verified": 0,
+      "unverified": 1
+    }
+  },
+  "metadata": {
+    "timestamp": "2025-09-25T02:46:58.275583",
+    "model_id": "gemma3n:e4b",
+    "text_length": 1245
+  }
+}

@@ -1,0 +1,45 @@
+SERVICE AGREEMENT
+
+This Service Agreement ("Agreement") is entered into on January 15, 2024, between:
+
+Party A: Acme Corporation
+Address: 123 Business Street, New York, NY 10001
+Contact: John Smith, CEO
+
+Party B: TechServices LLC  
+Address: 456 Technology Ave, San Francisco, CA 94105
+Contact: Sarah Johnson, Director of Operations
+
+TERMS AND CONDITIONS:
+
+1. Services to be Provided:
+   - Software development services
+   - Technical consulting
+   - System maintenance and support
+
+2. Financial Terms:
+   - Monthly retainer: $25,000
+   - Hourly rate for additional work: $150
+   - Payment due within 30 days of invoice
+
+3. Obligations:
+   - Party A shall provide project requirements within 5 business days
+   - Party B shall deliver services according to agreed timeline  
+   - Both parties shall maintain confidentiality of proprietary information
+
+4. Key Dates:
+   - Agreement effective: January 15, 2024
+   - Project completion target: June 30, 2024
+   - Contract renewal review: December 1, 2024
+
+5. Termination Clause:
+   - Either party may terminate with 30 days written notice
+   - Final payment due within 15 days of termination
+
+This agreement is governed by the laws of New York State.
+
+Signatures:
+_________________        _________________
+John Smith              Sarah Johnson
+CEO, Acme Corporation   Director, TechServices LLC
+Date: January 15, 2024  Date: January 15, 2024

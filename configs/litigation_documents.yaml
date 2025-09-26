@@ -1,0 +1,66 @@
+# Configuration for analyzing litigation documents
+analysis:
+  system_prompt: |
+    You are a litigation document analyst tasked with extracting key information from legal filings and court documents.
+
+    Instructions:
+    1. Review the provided litigation document text and context information.
+    2. Extract case information, parties, claims, facts, legal precedents, and key dates.
+    3. Focus only on information directly relevant to the litigation analysis.
+    4. If no relevant information is found, return empty arrays.
+    5. Do not include any text, notes, or explanations outside of the JSON object.
+    6. Disregard any artifacts from document parsing.
+
+  prompt_template: |
+    Use the following information to extract relevant litigation information.
+
+    Document Type: {document_type}
+    Case Context: {case_context}
+    Analysis Focus: {analysis_focus}
+
+    Litigation Document Text:
+    {document_text}
+
+  response_schema:
+    type: object
+    properties:
+      parties:
+        type: array
+        items:
+          type: string
+      claims:
+        type: array
+        items:
+          type: string
+      facts:
+        type: array
+        items:
+          type: string
+      legal_precedents:
+        type: array
+        items:
+          type: string
+      key_dates:
+        type: array
+        items:
+          type: string
+      damages:
+        type: array
+        items:
+          type: string
+
+  model_id: "gemma3n:e4b"
+  max_tokens: 20000
+  temperature: 0.1
+
+validation:
+  threshold: 0.5
+  algorithm: "ngram_bonus" 
+  bonus_factor: 0.6
+  strictness: "strict"
+
+preprocessing:
+  supported_formats: [".pdf", ".docx", ".doc", ".txt"]
+  extract_text: true
+  ocr_enabled: true
+  clean_text: true

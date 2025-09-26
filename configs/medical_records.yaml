@@ -1,0 +1,150 @@
+# Configuration for analyzing medical records in personal injury legal cases
+analysis:
+  system_prompt: |
+    You are a legal medical analyst specializing in personal injury cases. Your task is to extract information from medical documents that is relevant to establishing causation, extent of injuries, and damages in personal injury litigation.
+
+    Instructions:
+    1. Review the provided medical document text and incident context information.
+    2. Identify medical information directly related to the personal injury incident, including pre-existing conditions that may have been aggravated.
+    3. Extract evidence of causation between the incident and medical findings.
+    4. Focus on information relevant to legal damages, disability, and impact on daily life.
+    5. Identify any gaps in treatment or non-compliance that could affect the case.
+    6. Return structured JSON data without additional commentary.
+    7. Disregard any artifacts from document parsing.
+
+  prompt_template: |
+    Analyze the following medical record for personal injury legal case relevance.
+
+    Incident Details: {incident_description}
+    Date of Incident: {incident_date}
+    Legal Context: {legal_context}
+    Analysis Focus: {analysis_focus}
+
+    Medical Document Text:
+    {document_text}
+
+    Extract information relevant to establishing causation, damages, and the extent of injuries related to this personal injury incident.
+
+  response_schema:
+    type: object
+    properties:
+      incident_related_injuries:
+        type: array
+        items:
+          type: object
+          properties:
+            injury:
+              type: string
+            body_part:
+              type: string
+            severity:
+              type: string
+            causation_evidence:
+              type: string
+      pre_existing_conditions:
+        type: array
+        items:
+          type: object
+          properties:
+            condition:
+              type: string
+            aggravation_evidence:
+              type: string
+            pre_incident_status:
+              type: string
+      treatments_received:
+        type: array
+        items:
+          type: object
+          properties:
+            treatment:
+              type: string
+            provider:
+              type: string
+            date:
+              type: string
+            frequency:
+              type: string
+            cost_implications:
+              type: string
+      functional_limitations:
+        type: array
+        items:
+          type: object
+          properties:
+            limitation:
+              type: string
+            duration:
+              type: string
+            impact_on_daily_life:
+              type: string
+            work_related_impact:
+              type: string
+      pain_and_suffering_indicators:
+        type: array
+        items:
+          type: object  
+          properties:
+            indicator:
+              type: string
+            severity_scale:
+              type: string
+            duration:
+              type: string
+            impact_description:
+              type: string
+      medical_expenses:
+        type: array
+        items:
+          type: object
+          properties:
+            expense_type:
+              type: string
+            amount:
+              type: string
+            date:
+              type: string
+            necessity:
+              type: string
+      prognosis_and_future_care:
+        type: array
+        items:
+          type: object
+          properties:
+            prognosis:
+              type: string
+            future_treatment_needs:
+              type: string
+            permanent_disability:
+              type: string
+            estimated_costs:
+              type: string
+      expert_opinions:
+        type: array
+        items:
+          type: object
+          properties:
+            opinion:
+              type: string
+            medical_professional:
+              type: string
+            causation_assessment:
+              type: string
+            disability_rating:
+              type: string
+
+  model_id: "gemma3n:e4b"
+  max_tokens: 20000
+  temperature: 0.1
+
+validation:
+  threshold: 0.4
+  algorithm: "ngram_bonus"
+  bonus_factor: 0.6
+  strictness: "moderate"
+
+preprocessing:
+  supported_formats: [".pdf", ".docx", ".doc", ".txt"]
+  extract_text: true
+  ocr_enabled: true
+  clean_text: true

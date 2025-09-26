@@ -1,0 +1,28 @@
+{
+  "operation": "extract",
+  "total_files": 1,
+  "successful": 1,
+  "failed": 0,
+  "timestamp": "2025-09-25T02:42:46.495373",
+  "configuration": {
+    "supported_formats": [
+      ".pdf",
+      ".docx",
+      ".doc",
+      ".txt"
+    ],
+    "extract_text": true,
+    "ocr_enabled": true,
+    "clean_text": true
+  },
+  "results": [
+    {
+      "operation": "extract",
+      "input_file": "/home/runner/work/doculyze/doculyze/sample_docs/sample_contract.txt",
+      "output_file": "/home/runner/work/doculyze/doculyze/sample_docs/preprocessed/sample_contract_extracted.txt",
+      "text_length": 1278,
+      "success": true,
+      "timestamp": "2025-09-25T02:42:46.495337"
+    }
+  ]
+}
